@@ -1,4 +1,5 @@
-  tasks: EMHOST
+- hosts: dbwr3.localdomain
+  tasks:
   - name: Execute shell to checkout password from PAM and sync named credentials
     become: true
     become_user: root
@@ -8,7 +9,7 @@
   - debug:
       var: sync_pre_results.stdout_lines
 
-- hosts: EMHOST
+- hosts: dbwr3.localdomain
   tasks:
   - name: Execute Database Provisioning or Snap Clone using emcli commands
     become: true
@@ -18,7 +19,7 @@
   - debug:
       msg: "\n\nEnterprise Manager process compelted now password can be checkedin back to PAM\n\n"
 
-- hosts: EMHOST
+- hosts: dbwr3.localdomain
   tasks:
   - name: Execute shell to checkin password to  PAM
     become: true
