@@ -1,7 +1,7 @@
 - hosts: localhost
   tasks:
   - name: Execute shell to checkout password from PAM and sync named credentials
-    become: true
+    become: false
     become_user: root
     shell: ./sync_named_pre.sh
     register: sync_pre_results
@@ -12,7 +12,7 @@
 - hosts: localhost
   tasks:
   - name: Execute Database Provisioning or Snap Clone using emcli commands
-    become: true
+    become: false
     become_user: root
     shell: sleep 5m
 
@@ -22,7 +22,7 @@
 - hosts: localhost
   tasks:
   - name: Execute shell to checkin password to  PAM
-    become: true
+    become: false
     become_user: root
     shell: ./sync_named_post.sh
     register: sync_post_results
