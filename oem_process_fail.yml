@@ -1,12 +1,16 @@
 - hosts: dbwr3.localdomain
   tasks:
-  - name: Execute fleet patching - deploy image 
+  - name: Login to EM
     become: false
     become_user: root
     shell: /em/middleware/bin/emcli login -username=sysman -password=welcome1
     register: fleet_dp_results
-
   - debug:
       var: fleet_dp_results.stdout_lines
 
-
+  - name: Get Gold Images
+    become: false
+    become_user: root
+    sheel: /em/middleware/bin/emcli db_software_maintenance -getImages
+    register: fleet_dp_results
+         var: fleet_dp_results.stdout_lines
