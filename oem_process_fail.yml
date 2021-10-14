@@ -1,31 +1,17 @@
 - hosts: dbwr3.localdomain
   tasks:
-  - name: Execute shell to checkout password from PAM and sync named credentials
+  - name: Execute fleet patching - deploy image 
     become: true
     become_user: root
-    shell: ./get_pampass.sh
-    register: sync_pre_results
+    shell: |
+      /em/middleware/bin/emcli login -username=sysman -password=welcome1
+      /em/middleware/bin/emcli db_software_maintenance -getImages
+      /em/middleware/bin/emcli db_software_maintenance -getImageSubscriptions -image_id=CE1CD0CC890F799FE0530318A8C096F9
+      /em/middleware/bin/emcli db_software_maintenance -performOperation -name="deploy1912” -purpose=DEPLOY_DB_SOFTWARE -target_type=oracle_database -target_list=ORCLDBWR2 -normal_credential=DBWR2_HOST_ORACLE:SYSMAN -privilege_credential=DBWR2_HOST_ROOT:SYSMAN -input_file="data:/em/middleware/bin/deploy_param.inp" -procedure_name_prefix=“DEPLOY”
+      /em/middleware/bin/emcli logout
+    register: fleet_dp_results
 
   - debug:
-      var: sync_pre_results.stdout_lines
+      var: fleet_dp_results.stdout_lines
 
-- hosts: dbwr3.localdomain
-  tasks:
-  - name: Execute Database Provisioning or Snap Clone using emcli commands
-    become: false
-    become_user: root
-    shell: sleep 3m
 
-  - debug:
-      msg: "\n\nEnterprise Manager process compelted now password can be checkedin back to PAM\n\n"
-
-- hosts: dbwr3.localdomain
-  tasks:
-  - name: Execute shell to checkin password to PAM
-    become: false
-    become_user: root
-    shell: ./put_pampass.sh
-    register: sync_post_results
-
-  - debug:
-      var: sync_post_results.stdout_lines
