@@ -3,7 +3,7 @@
   - name: Execute shell to checkout password from PAM and sync named credentials
     become: false
     become_user: root
-    shell: ./display.sh
+    shell: ./get_pampass.sh
     register: sync_pre_results
 
   - debug:
@@ -21,7 +21,7 @@
 
 - hosts: localhost
   tasks:
-  - name: Execute shell to checkin password to  PAM
+  - name: Execute shell to checkin password to PAM
     become: false
     become_user: root
     shell: ./put_pampass.sh
