@@ -3,7 +3,7 @@
   - name: Execute fleet patching - deploy image 
     become: false
     become_user: root
-    shell: /home/oracle/display.sh
+    shell: /em/middleware/bin/emcli login -username=sysman -password=welcome1
     register: fleet_dp_results
 
   - debug:
