@@ -3,7 +3,7 @@
   - name: Execute fleet patching - deploy image 
     become: false
     become_user: root
-    shell: ./display.sh
+    shell: /home/oracle/display.sh
     register: fleet_dp_results
 
   - debug:
