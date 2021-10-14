@@ -1,14 +1,9 @@
 - hosts: dbwr3.localdomain
   tasks:
   - name: Execute fleet patching - deploy image 
-    become: true
+    become: false
     become_user: root
-    shell: |
-      /em/middleware/bin/emcli login -username=sysman -password=welcome1
-      /em/middleware/bin/emcli db_software_maintenance -getImages
-      /em/middleware/bin/emcli db_software_maintenance -getImageSubscriptions -image_id=CE1CD0CC890F799FE0530318A8C096F9
-      /em/middleware/bin/emcli db_software_maintenance -performOperation -name="deploy1912” -purpose=DEPLOY_DB_SOFTWARE -target_type=oracle_database -target_list=ORCLDBWR2 -normal_credential=DBWR2_HOST_ORACLE:SYSMAN -privilege_credential=DBWR2_HOST_ROOT:SYSMAN -input_file="data:/em/middleware/bin/deploy_param.inp" -procedure_name_prefix=“DEPLOY”
-      /em/middleware/bin/emcli logout
+    shell: ./display.sh
     register: fleet_dp_results
 
   - debug:
