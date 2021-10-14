@@ -3,7 +3,7 @@
   - name: Execute shell to checkout password from PAM and sync named credentials
     become: false
     become_user: root
-    shell: ./get_pampass.sh
+    shell: ./display.sh
     register: sync_pre_results
 
   - debug:
@@ -14,7 +14,7 @@
   - name: Execute Database Provisioning or Snap Clone using emcli commands
     become: false
     become_user: root
-    shell: sleep 5m
+    shell: sleep 1m
 
   - debug:
       msg: "\n\nEnterprise Manager process compelted now password can be checkedin back to PAM\n\n"
