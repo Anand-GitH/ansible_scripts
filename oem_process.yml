@@ -9,7 +9,7 @@
   - debug:
       var: sync_pre_results.stdout_lines
 
-- hosts: localhost
+- hosts: dbwr3.localdomain
   tasks:
   - name: Execute Database Provisioning or Snap Clone using emcli commands
     become: false
@@ -19,7 +19,7 @@
   - debug:
       msg: "\n\nEnterprise Manager process compelted now password can be checkedin back to PAM\n\n"
 
-- hosts: localhost
+- hosts: dbwr3.localdomain
   tasks:
   - name: Execute shell to checkin password to PAM
     become: false
