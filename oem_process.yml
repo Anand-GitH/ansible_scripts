@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: dbwr3.localdomain
   tasks:
   - name: Execute shell to checkout password from PAM and sync named credentials
     become: false
