@@ -15,6 +15,12 @@
   - debug:
       var: login_results.stdout_lines
       
+  - name: Get Gold Images
+    shell: /em/middleware/bin/emcli db_software_maintenance -getImages -columnName=image_id, image_name
+    register: gold_results
+  - debug:
+      var: gold_results.stdout_lines
+      
       
       
      
