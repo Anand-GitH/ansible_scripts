@@ -6,7 +6,7 @@
     shell: cd /em/middleware/bin/
   
   - name: Login to Enterprise manager
-    shell: emcli login -username=sysman -password=welcome1
+    shell: pwd >> resp.txt | cat resp.txt
     register: login_results
   - debug:
       var: login_results.stdout_lines
