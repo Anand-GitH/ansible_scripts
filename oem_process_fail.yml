@@ -21,6 +21,10 @@
   - debug:
       var: gold_results.stdout_lines
       
-      
+  - name: Get Image Subscriptions
+    shell: /em/middleware/bin/emcli db_software_maintenance -getImageSubscriptions -image_id=CE1CD0CC890F799FE0530318A8C096F9
+    register: image_results
+  - debug:
+      var: image_results.stdout_lines
       
      
