@@ -32,4 +32,12 @@
     register: deploy_results
   - debug:
       var: deploy_results.stdout_lines
-     
+    
+  - name: Log out from emcli session if session already exists
+    become: false
+    become_user: root
+    shell: /em/middleware/bin/emcli logout
+    ignore_errors: true
+    register: logout_results
+  - debug:
+      var: logout_results.stdout_lines
