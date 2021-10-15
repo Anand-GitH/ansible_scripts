@@ -4,12 +4,16 @@
     become: false
     become_user: root
     shell: cd /em/middleware/bin/
+    shell: pwd >> resp.txt | cat resp.txt
+    register: login_results1
+  - debug:
+      var: login_results1.stdout_lines
   
   - name: Login to Enterprise manager
     shell: pwd >> resp.txt | cat resp.txt
-    register: login_results
+    register: login_results2
   - debug:
-      var: login_results.stdout_lines
+      var: login_results2.stdout_lines
       
       
       
