@@ -3,13 +3,13 @@
   - name: Log out from emcli session if session already exists
     become: false
     become_user: root
-    shell: /em/middleware/bin/emcli logout
+    command: /em/middleware/bin/emcli logout
     register: logout_results
   - debug:
       var: logout_results.stdout_lines
       
   - name: Login to Enterprise manager
-    shell: /em/middleware/bin/emcli login -username=sysman -password=welcome1
+    command: /em/middleware/bin/emcli login -username=sysman -password=welcome1
     register: login_results
   - debug:
       var: login_results.stdout_lines
