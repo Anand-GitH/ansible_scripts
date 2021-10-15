@@ -1,18 +1,18 @@
 - hosts: dbwr3.localdomain
   tasks:
-  - name: Changing Directory
+  - name: Log out from emcli session if session already exists
     become: false
     become_user: root
-    shell: pwd >> resp.txt | cat resp.txt
-    register: login_results1
+    shell: /em/middleware/bin/emcli logout
+    register: logout_results
   - debug:
-      var: login_results1.stdout_lines
+      var: logout_results.stdout_lines
       
   - name: Login to Enterprise manager
-    shell: pwd >> resp.txt | cat resp.txt
-    register: login_results2
+    shell: /em/middleware/bin/emcli login -username=sysman -password=welcome1
+    register: login_results
   - debug:
-      var: login_results2.stdout_lines
+      var: login_results.stdout_lines
       
       
       
