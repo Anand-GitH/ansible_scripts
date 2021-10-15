@@ -27,4 +27,9 @@
   - debug:
       var: image_results.stdout_lines
       
+  - name: Run patching - Deploy Image 
+    shell: /em/middleware/bin/emcli db_software_maintenance -performOperation -name="deploy1912" -purpose=DEPLOY_DB_SOFTWARE -target_type=oracle_database -target_list=ORCLDBWR2 -input_file="data:/em/middleware/bin/deploy_param.inp" -procedure_name_prefix="DEPLOY" -normal_credential=DBWR2_HOST_ORACLE:SYSMAN -privilege_credential=DBWR2_HOST_ROOT:SYSMAN
+    register: deploy_results
+  - debug:
+      var: deploy_results.stdout_lines
      
