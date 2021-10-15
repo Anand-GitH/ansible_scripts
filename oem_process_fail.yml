@@ -1,12 +1,16 @@
 - hosts: dbwr3.localdomain
   tasks:
-  - name: Patching - Deploy Image
+  - name: Changing Directory
     become: false
     become_user: root
-    shell: |
-      cd /em/middleware/bin/
-      ls -l
-    register: logout_results
+    shell: cd /em/middleware/bin/
+  
+  - name: Login to Enterprise manager
+    shell: emcli login -username=sysman -password=welcome1
+    register: login_results
   - debug:
       var: login_results.stdout_lines
+      
+      
+      
      
