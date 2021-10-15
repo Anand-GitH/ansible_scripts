@@ -4,23 +4,18 @@
     become: false
     become_user: root
     shell: /em/middleware/bin/emcli login -username=sysman -password=welcome1
-    register: fleet_dp_results
-  - debug:
-      var: fleet_dp_results.stdout_lines
+    register: login_results
     shell: /em/middleware/bin/emcli db_software_maintenance -getImages -columnName=image_id, image_name
-    register: fleet_dp_results
-  - debug:
-      var: fleet_dp_results.stdout_lines
+    register: gold_image_results
     shell: /em/middleware/bin/emcli db_software_maintenance -getImageSubscriptions -image_id=CE1CD0CC890F799FE0530318A8C096F9
-    register: fleet_dp_results
-  - debug:
-      var: fleet_dp_results.stdout_lines
+    register: subp_results
     shell: /em/middleware/bin/emcli db_software_maintenance -performOperation -name="deploy1912" -purpose=DEPLOY_DB_SOFTWARE -target_type=oracle_database -target_list=ORCLDBWR2 -input_file="data:/em/middleware/bin/deploy_param.inp" -procedure_name_prefix="DEPLOY" -normal_credential=DBWR2_HOST_ORACLE:SYSMAN -privilege_credential=DBWR2_HOST_ROOT:SYSMAN
-    register: fleet_dp_results
-  - debug:
-      var: fleet_dp_results.stdout_lines
+    register: dp_results
     shell: /em/middleware/bin/emcli logout
-    register: fleet_dp_results
+    register: logout_results
   - debug:
-      var: fleet_dp_results.stdout_lines
-      
+      var: login_results.stdout_lines
+      var: gold_image_results.stdout_lines
+      var: subp_results.stdout_lines
+      var: dp_results.stdout_lines
+      var: logout_results.stdout_lines
