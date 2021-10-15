@@ -11,11 +11,54 @@
 
 - hosts: dbwr3.localdomain
   tasks:
-  - name: Execute Database Provisioning or Snap Clone using emcli commands
+  - name: Log out from emcli session if session already exists
+    become: false
+    become_user: root
+    shell: /em/middleware/bin/emcli logout
+    ignore_errors: true
+    register: logout_results
+  - debug:
+      var: logout_results.stdout_lines
+      
+  - name: Login to Enterprise manager
+    shell: /em/middleware/bin/emcli login -username=sysman -password=welcome1
+    register: login_results
+  - debug:
+      var: login_results.stdout_lines
+      
+  - name: Get Gold Images
+    shell: /em/middleware/bin/emcli db_software_maintenance -getImages -columnName=image_id,image_name
+    register: gold_results
+  - debug:
+      var: gold_results.stdout_lines
+      
+  - name: Get Image Subscriptions
+    shell: /em/middleware/bin/emcli db_software_maintenance -getImageSubscriptions -image_id=CE1CD0CC890F799FE0530318A8C096F9
+    register: image_results
+  - debug:
+      var: image_results.stdout_lines
+      
+  - name: Run patching - Deploy Image 
+    shell: /em/middleware/bin/emcli db_software_maintenance -performOperation -name="deploy1912" -purpose=DEPLOY_DB_SOFTWARE -target_type=oracle_database -target_list=ORCLDBWR2 -input_file="data:/em/middleware/bin/deploy_param.inp" -procedure_name_prefix="DEPLOY" -normal_credential=DBWR2_HOST_ORACLE:SYSMAN -privilege_credential=DBWR2_HOST_ROOT:SYSMAN
+    register: deploy_results
+  - debug:
+      var: deploy_results.stdout_lines
+      
+  - name: Log out from emcli session if session already exists
+    become: false
+    become_user: root
+    shell: /em/middleware/bin/emcli logout
+    ignore_errors: true
+    register: logout_results
+  - debug:
+      var: logout_results.stdout_lines
+      
+- hosts: dbwr3.localdomain
+  tasks:
+  - name: Deploy Image is still running
     become: false
     become_user: root
     shell: sleep 3m
-
   - debug:
       msg: "\n\nEnterprise Manager process compelted now password can be checkedin back to PAM\n\n"
 
