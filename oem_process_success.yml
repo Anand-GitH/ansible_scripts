@@ -5,7 +5,6 @@
     become_user: root
     shell: ./get_pampass-2.sh
     register: sync_pre_results
-
   - debug:
       var: sync_pre_results.stdout_lines
 
@@ -45,30 +44,21 @@
       var: deploy_results.stdout_lines
       
   - name: Log out from emcli session if session already exists
-    become: false
-    become_user: root
     shell: /em/middleware/bin/emcli logout
     ignore_errors: true
     register: logout_results
   - debug:
       var: logout_results.stdout_lines
       
-- hosts: dbwr3.localdomain
-  tasks:
   - name: Deploy Image is still running
-    become: false
-    become_user: root
     shell: sleep 3m
   - debug:
       msg: "\n\nEnterprise Manager process compelted now password can be checkedin back to PAM\n\n"
 
-- hosts: dbwr3.localdomain
-  tasks:
   - name: Execute shell to checkin password to PAM
     become: false
     become_user: root
     shell: ./put_pampass-2.sh
     register: sync_post_results
-
   - debug:
       var: sync_post_results.stdout_lines
